@@ -17,6 +17,11 @@ configuration DomainController
         [Int]$RetryIntervalSec=30
     )
     
+    $wmiDomain      = Get-WmiObject Win32_NTDomain -Filter "DnsForestName = '$( (Get-WmiObject Win32_ComputerSystem).Domain)'"
+    $shortDomain    = $wmiDomain.DomainName
+    $DomainName     = $wmidomain.DnsForestName
+    $ComputerName   = $wmiDomain.PSComputerName
+
 	$ClearDefUserPw = [Runtime.InteropServices.Marshal]::PtrToStringAuto([Runtime.InteropServices.Marshal]::SecureStringToBSTR($UserCreds.Password))
 
     Import-DscResource -ModuleName xComputerManagement,xNetworking,PSDesiredStateConfiguration
