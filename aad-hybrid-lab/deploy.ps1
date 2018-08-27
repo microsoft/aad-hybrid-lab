@@ -31,7 +31,7 @@ Import-Module Azure -ErrorAction SilentlyContinue
 #END DEPLOYMENT OPTIONS
 
 #Dot-sourced variable override (optional, comment out if not using)
-. "$(env:PSH_Settings_Files)aad-hybrid-lab.ps1"
+. "$($env:PSH_Settings_Files)aad-hybrid-lab.ps1"
 
 #ensure we're logged in
 Get-AzureRmContext -ErrorAction Stop
