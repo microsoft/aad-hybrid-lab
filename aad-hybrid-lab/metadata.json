@@ -1,0 +1,7 @@
+﻿{
+  "itemDisplayName": "aad-hybrid-lab",
+  "description": "Using DSC and custom scripts, deploys an Azure Active Directory VM with Azure AD Connnect and PowerShell moldules installed. Connect is installed but not configured.",
+  "summary": "Creates AD lab environment with Azure AD Connect installed",
+  "githubUsername": "bretthackermsft",
+  "dateUpdated": "2018-8-27"
+}
