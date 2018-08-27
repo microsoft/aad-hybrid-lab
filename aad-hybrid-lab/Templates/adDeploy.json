@@ -55,7 +55,7 @@
     }
   },
   "variables": {
-    "DeployADTemplate": "./scripts/DeployAD.ps1",
+    "DeployADTemplate": "DeployAD.ps1",
     "DeployADTemplateUri": "[concat(parameters('assetLocation'), 'Scripts/DeployAD.ps1')]",
     "adSubnetID": "[concat(variables('vnetID'),'/subnets/', parameters('adSubnetName'))]",
     "imageOffer": "WindowsServer",
