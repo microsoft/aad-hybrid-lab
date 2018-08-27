@@ -155,7 +155,59 @@ function Get-FQDNForVM() {
         Write-Error $_.Exception.Message
     }
 }
+function Get-IPForVM() {
+    param(
+        [Parameter(Mandatory=$True,Position=1)]
+        [string]$ResourceGroupName,
 
+        [Parameter(Mandatory=$False,Position=2)]
+        [string]$VMName,
+
+        [Parameter(Mandatory=$False,Position=3)]
+        [string]$IPConfigName
+    )
+    if (-not $VMName -and -not $IPConfigName) {
+        Write-Host "ERROR: Must supply either -VMName or -IPConfigName"
+        return
+    }
+
+    try {
+        $apiver="2016-09-01"
+        $computeapiver="2017-03-30"
+        $ctx = Get-AzureRMContext -ErrorAction Stop
+
+        $subid = $ctx.Subscription.SubscriptionId
+        $mgmtUrl = $ctx.Environment.ResourceManagerUrl
+        $Headers = Get-AuthHeader -Resource "https://management.azure.com/" -TenantId $ctx.Tenant.TenantId
+
+        if (-not $IPConfigName) {
+            #good grief...VM
+            $vmurl="$mgmtUrl/subscriptions/$subid/resourceGroups/$ResourceGroupName/providers/Microsoft.Compute/virtualMachines/$($VMName)?api-version=$computeapiver"
+            $res = Invoke-WebRequest -Uri $vmurl -Method Get -Headers $Headers
+            $vm = ConvertFrom-Json $res.Content
+            $nicarr=$vm.properties.networkProfile.networkInterfaces[0].id.Split('/')
+            $nicname=$nicarr[$nicarr.Length-1]
+
+            #...to get the NIC...
+            $nicurl="$mgmtUrl/subscriptions/$subid/resourceGroups/$ResourceGroupName/providers/Microsoft.Network/networkInterfaces/$($nicname)?api-version=$apiver"
+            $res = Invoke-WebRequest -Uri $nicurl -Method Get -Headers $Headers
+            $nic = ConvertFrom-Json $res.Content
+            $iparr=$nic.properties.ipConfigurations[0].properties.publicIPAddress.id.split('/')
+            $IPConfigName=$iparr[$iparr.length-1]
+        }
+
+        #...to get the IP config...
+        $ipurl="$mgmtUrl/subscriptions/$subid/resourceGroups/$ResourceGroupName/providers/Microsoft.Network/publicIPAddresses/$($IPConfigName)?api-version=$apiver"
+        $res = Invoke-WebRequest -Uri $ipurl -Method Get -Headers $Headers
+
+        #...to get the FQDN
+        $data = ConvertFrom-Json $res.Content
+        return $data.properties.ipAddress
+    }
+    Catch { 
+        Write-Error $_.Exception.Message
+    }
+}
 #MISC
 function Get-EscapedString {
     param (

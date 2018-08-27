@@ -87,8 +87,8 @@ if ($deployment) {
     $vms = Find-AzureRmResource -ResourceGroupNameContains $RGName | where {($_.ResourceType -like "Microsoft.Compute/virtualMachines")}
     if ($vms) {
         foreach ($vm in $vms) {
-            $fqdn=Get-FQDNForVM -ResourceGroupName $RGName -VMName $vm.Name
-            New-RDPConnectoid -ServerName $fqdn -LoginName "$($ADName)\$($userName)" -RDPName $vm.Name -OutputDirectory $RDPFolder -Width $RDPWidth -Height $RDPHeight
+            $ip=Get-IPForVM -ResourceGroupName $RGName -VMName $vm.Name
+            New-RDPConnectoid -ServerName $ip -LoginName "$($ADName)\$($userName)" -RDPName $vm.Name -OutputDirectory $RDPFolder -Width $RDPWidth -Height $RDPHeight
         }
     }
 
