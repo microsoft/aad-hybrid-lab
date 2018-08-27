@@ -4,7 +4,7 @@
   "parameters": {
     "assetLocation": {
       "type": "string",
-      "defaultValue": "https://aadlabdns.blob.core.windows.net/vmdeploy/",
+      "defaultValue": "https://raw.githubusercontent.com/Microsoft/aad-hybrid-lab/master/aad-hybrid-lab/",
       "metadata": { "description": "This is the location in which all the linked templates are stored." }
     },
     "adminUsername": {

@@ -31,13 +31,13 @@ Import-Module Azure -ErrorAction SilentlyContinue
 #END DEPLOYMENT OPTIONS
 
 #Dot-sourced variable override (optional, comment out if not using)
-. C:\Users\brhacke\OneDrive\Dev\MSFT\A_CustomDeploySettings\aad-hybrid-lab.ps1
+. "$(env:PSH_Settings_Files)aad-hybrid-lab.ps1"
 
 #ensure we're logged in
 Get-AzureRmContext -ErrorAction Stop
 
 #deploy
-$AssetLocation           = "https://aadlabdns.blob.core.windows.net/vmdeploy/"
+$AssetLocation           = "https://raw.githubusercontent.com/Microsoft/aad-hybrid-lab/master/aad-hybrid-lab/"
 
 $parms=@{
     "adminPassword"               = $secpasswd;
