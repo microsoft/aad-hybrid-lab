@@ -22,7 +22,7 @@
 * One VM size is specified for all VMs
 
 ## NOTICE/WARNING
-* This template is explicitly designed for a lab/classroom environment. A few compromises were made, especially with regards to credential passing to DSC and script automation, that WILL result in clear text passwords being left behind in the DSC/scriptextension package folders, Azure log folders, and system event logs on the resulting VMs. 
+* This template is explicitely designed for a lab/classroom environment. A few compromises were made, especially with regards to credential passing to DSC and script automation, that WILL result in clear text passwords being left behind in the DSC/scriptextension package folders, Azure log folders, and system event logs on the resulting VMs. 
 
 ## Bonus
 The "deploy.ps1" file above can be downloaded and run locally against this repo, and offers a few additional features:

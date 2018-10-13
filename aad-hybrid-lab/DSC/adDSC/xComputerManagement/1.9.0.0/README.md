@@ -57,7 +57,7 @@ xOfflineDomainJoin resource is a [Single Instance](https://msdn.microsoft.com/en
 
 ## xScheduledTask
 xScheduledTask resource is used to define basic recurring scheduled tasks on the local computer.
-Tasks are created to run indefinitely based on the schedule defined.
+Tasks are created to run indefinitly based on the schedule defined.
 xScheduledTask has the following properties:
 
  * TaskName: The name of the task
