@@ -63,7 +63,7 @@
     "vnetID": "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'))]",
     "adPubIPName": "[concat('adPubIP', parameters('deploymentNumber'))]",
     "adNicName": "[concat('ad-',parameters('NetworkInterfaceName'), parameters('deploymentNumber'))]",
-    "computeApiVersion": "2016-04-30"
+    "computeApiVersion": "2016-04-30-preview"
   },
   "resources": [
     {
