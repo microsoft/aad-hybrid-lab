@@ -24,8 +24,7 @@
     },
     "adDomainName": {
       "type": "string",
-      "defaultValue": "contoso.com",
-      "metadata": { "description": "Two-part internal AD name - short/NB name will be first part ('contoso')." }
+      "metadata": { "description": "IMPORTANT: Two-part internal AD name - short/NB name will be first part ('contoso'). The short name will be reused and should be unique when deploying this template in your selected region. If a name is reused, DNS name collisions may occur." }
     },
     "usersArray": {
       "type": "array",

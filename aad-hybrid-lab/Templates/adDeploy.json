@@ -29,8 +29,7 @@
       "defaultValue": "AZAD"
     },
     "adDomainName": {
-      "type": "string",
-      "defaultValue": "contoso.com"
+      "type": "string"
     },
     "assetLocation": {
       "type": "string"
@@ -64,7 +63,7 @@
     "vnetID": "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'))]",
     "adPubIPName": "[concat('adPubIP', parameters('deploymentNumber'))]",
     "adNicName": "[concat('ad-',parameters('NetworkInterfaceName'), parameters('deploymentNumber'))]",
-    "computeApiVersion": "2016-04-30-preview"
+    "computeApiVersion": "2016-04-30"
   },
   "resources": [
     {

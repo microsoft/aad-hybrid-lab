@@ -70,7 +70,7 @@ catch {
 $deployment = New-AzureRmResourceGroupDeployment -ResourceGroupName $RGName -TemplateParameterObject $parms -TemplateFile $TemplateFile -Name "adLabDeploy$version"  -Force -Verbose
 
 if ($deployment) {
-    if (-not (Get-Command Get-FQDNForVM -ErrorAction SilentlyContinue)) {
+    if (-not (Get-Command Get-IPForVM -ErrorAction SilentlyContinue)) {
         #load add-on functions to facilitate the RDP connectoid creation below
         $url="$($assetLocation)Scripts/Addons.ps1"
         $tempfile = "$env:TEMP\Addons.ps1"
