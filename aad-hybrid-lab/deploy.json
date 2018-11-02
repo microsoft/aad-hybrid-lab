@@ -112,6 +112,20 @@
   },
   "resources": [
     {
+      "name": "NSGs",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2015-01-01",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": { "uri": "[variables('nsgTemplateURI')]" },
+        "parameters": {
+          "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" },
+          "subnets": { "value": "[ variables('subnets') ]" },
+          "deploymentNumber": { "value": "[parameters('deploymentNumber')]" }
+        }
+      }
+    },
+    {
       "name": "virtualNetwork",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2015-01-01",
@@ -125,20 +139,6 @@
           "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" },
           "subnets": { "value": "[ variables('subnets') ]" },
           "virtualNetworkAddressRange": { "value": "[parameters('virtualNetworkAddressRange')]" }
-        }
-      }
-    },
-    {
-      "name": "NSGs",
-      "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2015-01-01",
-      "properties": {
-        "mode": "Incremental",
-        "templateLink": { "uri": "[variables('nsgTemplateURI')]" },
-        "parameters": {
-          "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" },
-          "subnets": { "value": "[ variables('subnets') ]" },
-          "deploymentNumber": { "value": "[parameters('deploymentNumber')]" }
         }
       }
     },
@@ -192,7 +192,7 @@
       "location": "[variables('location')]",
       "apiVersion": "2015-06-15",
       "dependsOn": [
-        "Microsoft.Resources/Deployments/adVMs"
+        "virtualNetworkDNSUpdate"
       ],
       "tags": {
         "displayName": "adDSC"

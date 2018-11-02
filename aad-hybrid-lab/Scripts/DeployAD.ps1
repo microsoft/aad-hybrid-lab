@@ -11,14 +11,14 @@ $ErrorActionPreference = "Stop"
 
 $completeFile="c:\temp\prereqsComplete"
 if (!(Test-Path -Path "c:\temp")) {
-    md "c:\temp"
+    mkdir "c:\temp"
 }
 
 $step=1
 if (!(Test-Path -Path "$($completeFile)$step")) {
     # Shortcuts
 	if (!(Test-Path -Path "c:\AADLab")) {
-		md "c:\AADLab" -ErrorAction Ignore
+		mkdir "c:\AADLab" -ErrorAction Ignore
 	}
 
 	$WshShell = New-Object -comObject WScript.Shell
@@ -73,7 +73,7 @@ if (!(Test-Path -Path "$($completeFile)$step")) {
     $IPType = "IPv4"
 
     # Retrieve the network adapter that you want to configure
-    $adapter = Get-NetAdapter | ? {$_.Status -eq "up"}
+    $adapter = Get-NetAdapter | Where-Object {$_.Status -eq "up"}
     $cfg = ($adapter | Get-NetIPConfiguration)
     $IP = $cfg.IPv4Address.IPAddress
     $Gateway = $cfg.IPv4DefaultGateway.NextHop
