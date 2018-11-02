@@ -137,6 +137,8 @@ configuration DomainController
 					Install-Module -Name AzureAD -Force
 
 					Install-Module -Name AzureADPreview -AllowClobber -Force
+
+					Install-Module -Name AzureRM –AllowClobber -Force
                 }
 
             GetScript =  { @{} }
