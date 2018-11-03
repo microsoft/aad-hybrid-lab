@@ -139,6 +139,13 @@ configuration DomainController
 					Install-Module -Name AzureADPreview -AllowClobber -Force
 
 					Install-Module -Name AzureRM –AllowClobber -Force
+
+				# Setup data disk
+					Get-Disk | 
+						Where-Object { $_.PartitionStyle -Eq "RAW" } | 
+						Initialize-Disk -PassThru -Confirm:$false | 
+						New-Partition -AssignDriveLetter -UseMaximumSize |
+						Format-Volume -Force -Confirm:$false
                 }
 
             GetScript =  { @{} }

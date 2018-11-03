@@ -108,17 +108,3 @@ if (!(Test-Path -Path "$($completeFile)$step")) {
     New-Item -ItemType file "$($completeFile)$step"
 }
 
-$step=5
-if (!(Test-Path -Path "$($completeFile)$step")) {
-	
-	# Prepare data disk
-	Get-Disk | 
-		Where-Object { $_.PartitionStyle -Eq "RAW" } | 
-		Initialize-Disk -PassThru -Confirm:$false | 
-		New-Partition -AssignDriveLetter -UseMaximumSize |
-		Format-Volume -Force -Confirm:$false
-
-    #record that we got this far
-    New-Item -ItemType file "$($completeFile)$step"
-}
-
