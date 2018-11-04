@@ -145,7 +145,7 @@ configuration DomainController
             }
 		}
 
-		Script AddTools
+		Script ConfigDisk
         {
             SetScript  = {
 				# Setup data disk
