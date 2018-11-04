@@ -1,5 +1,3 @@
-$DscWorkingFolder = $PSScriptRoot
-
 configuration DomainController
 {
    param
@@ -65,7 +63,7 @@ configuration DomainController
             SetScript = {
                 $wmiDomain = Get-WmiObject Win32_NTDomain -Filter "DnsForestName = '$( (Get-WmiObject Win32_ComputerSystem).Domain)'"
                 $segments = $wmiDomain.DnsForestName.Split('.')
-                $path = [string]::Join(", ", ($segments | % { "DC={0}" -f $_ }))
+                $path = [string]::Join(", ", ($segments | ForEach-Object { "DC={0}" -f $_ }))
                 New-ADOrganizationalUnit -Name "OrgUsers" -Path $path
             }
             GetScript =  { @{} }
@@ -82,10 +80,8 @@ configuration DomainController
                 $mailDomain=$wmiDomain.DnsForestName
                 $server="$($wmiDomain.PSComputerName).$($wmiDomain.DnsForestName)"
                 $segments = $wmiDomain.DnsForestName.Split('.')
-                $OU = "OU=OrgUsers, {0}" -f [string]::Join(", ", ($segments | % { "DC={0}" -f $_ }))
+                $OU = "OU=OrgUsers, {0}" -f [string]::Join(", ", ($segments | ForEach-Object { "DC={0}" -f $_ }))
                 
-                $folder=$using:DscWorkingFolder
-
 				$clearPw = $using:ClearDefUserPw
 				$Users = $using:usersArray
 
@@ -129,7 +125,7 @@ configuration DomainController
         {
             SetScript  = {
 				# Install AAD Tools
-					md c:\temp -ErrorAction Ignore
+					mkdir c:\temp -ErrorAction Ignore
 					Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force
 
 					Install-Module -Name MSOnline -Force
@@ -140,6 +136,18 @@ configuration DomainController
 
 					Install-Module -Name AzureRM –AllowClobber -Force
 
+                }
+
+            GetScript =  { @{} }
+            TestScript = { 
+                $key=Get-Module -Name AzureRM -ListAvailable
+                return ($key -ine $null)
+            }
+		}
+
+		Script AddTools
+        {
+            SetScript  = {
 				# Setup data disk
 					Get-Disk | 
 						Where-Object { $_.PartitionStyle -Eq "RAW" } | 
@@ -150,8 +158,8 @@ configuration DomainController
 
             GetScript =  { @{} }
             TestScript = { 
-                $key=Get-Module -Name MSOnline -ListAvailable
-                return ($key -ine $null)
+				$dsk = Get-Disk | Where-Object PartitionStyle -EQ "GPT"
+                return ($dsk -ine $null)
             }
 		}
     }
