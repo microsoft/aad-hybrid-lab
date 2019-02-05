@@ -144,23 +144,5 @@ configuration DomainController
                 return ($key -ine $null)
             }
 		}
-
-		Script ConfigDisk
-        {
-            SetScript  = {
-				# Setup data disk
-					Get-Disk | 
-						Where-Object { $_.PartitionStyle -Eq "RAW" } | 
-						Initialize-Disk -PassThru -Confirm:$false | 
-						New-Partition -AssignDriveLetter -UseMaximumSize |
-						Format-Volume -Force -Confirm:$false
-                }
-
-            GetScript =  { @{} }
-            TestScript = { 
-				$dsk = Get-Disk | Where-Object PartitionStyle -EQ "GPT"
-                return ($dsk -ine $null)
-            }
-		}
     }
 }
