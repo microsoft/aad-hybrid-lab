@@ -126,6 +126,7 @@ configuration DomainController
             SetScript  = {
 				# Install AAD Tools
 					mkdir c:\temp -ErrorAction Ignore
+					[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 					Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force
 
 					Install-Module -Name MSOnline -Force
@@ -134,7 +135,7 @@ configuration DomainController
 
 					#Install-Module -Name AzureADPreview -AllowClobber -Force
 
-					#Install-Module -Name AzureRM –AllowClobber -Force
+					#Install-Module -Name AzureRM â€“AllowClobber -Force
 
                 }
 
